@@ -1,0 +1,11 @@
+---
+- name: Get loopback interface
+# Use the host group 'sandbox' from our inventory
+  hosts: sandbox
+  # Using the default ios_facts for ansible_network_os: ios 
+  gather_facts: True
+  # Gather only a subset of facts, specifically interfaces. Other options: all, min, hardware, config, and interfaces
+  gather_subset: interfaces
+  tasks:
+    # Print out the interfaces from the ansible_facts dictionary, jinja syntax, var from host_vars
+    - debug: var=ansible_facts["net_interfaces"]["{{ interface }}"]

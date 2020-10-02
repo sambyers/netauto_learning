@@ -1,0 +1,13 @@
+# virlutils generated ansible file for lab id: c27dcc, title: cmlutils test
+#
+# the overall structure of the inventory follows best practices
+# at http://docs.ansible.com/ansible/latest/intro_inventory.html
+
+# we've rendered what we think is best if you disagree, override
+# virl.generators.ansible_inventory_generator
+
+# you can modify grouping behavior by adding a tag to your nodes:
+# ansible_group=GROUP_NAME
+
+all:
+  children:

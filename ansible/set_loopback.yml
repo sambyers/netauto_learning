@@ -1,0 +1,19 @@
+---
+- name: Set loopback interface
+# Use the host group 'sandbox' from our inventory
+  hosts: sandbox
+  # Don't waste time gathering facts
+  gather_facts: False
+  tasks:
+    - name: Replace or create loopback interface
+      # ios_interfaces module
+      ios_interfaces:
+        config:
+          # Name of the interface to be configured or replaced, jinja syntax, var from host_vars
+          - name: "{{ interface }}"
+            # Description of the interface, jinja syntax, var from host_vars
+            description: "{{ description }}"
+            # Enable the interface
+            enabled: True
+        # Replaces existing configuration with this config, other options: merged, overridden, deleted
+        state: replaced

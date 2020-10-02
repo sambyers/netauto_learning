@@ -1,0 +1,11 @@
+---
+- name: Delete loopback interface
+# Use the host group 'sandbox' from our inventory
+  hosts: sandbox
+  # Don't waste time gathering facts
+  gather_facts: False
+  tasks:
+    - name: Remove {{ interface }}
+      # ios_config module supports sending configurations lines to devices
+      ios_config:
+        lines: no interface {{ interface }}

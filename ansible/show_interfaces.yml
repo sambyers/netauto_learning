@@ -1,0 +1,19 @@
+---
+- name: Show ip interfaces
+# Use the host group 'sandbox' from our inventory
+  hosts: sandbox
+  # Don't waste time getting facts
+  gather_facts: False
+  tasks:
+    - name: Show IP interface brief
+      # Use the ios_command module
+      ios_command:
+        # List of commands to run
+        commands:
+          - show ip interface brief
+      # Register output from the commands to a var called output
+      register: output
+      # Print out the var output as standard output lines
+    - name: Format output
+      debug:
+        msg: "{{ output.stdout_lines }}"

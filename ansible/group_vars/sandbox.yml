@@ -1,0 +1,11 @@
+---
+netconf_port: 10000
+restconf_port: 9443
+ansible_user: developer
+ansible_port: 8181
+ansible_password: C1sco12345
+ansible_network_os: ios
+ansible_connection: network_cli
+ansible_become: yes
+ansible_become_method: enable
+ansible_python_interpreter: '~/venv/netauto_learning/bin/python'

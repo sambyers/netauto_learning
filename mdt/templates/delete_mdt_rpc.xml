@@ -1,0 +1,18 @@
+<config>
+  <mdt-config-data xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-mdt-cfg">
+    <mdt-subscription operation="delete">
+      <subscription-id>{{ sub_id }}</subscription-id>
+      <base>
+          <stream>yang-push</stream>
+          <encoding>encode-kvgpb</encoding>
+          <period>{{ period }}</period>
+          <xpath>{{ xpath }}</xpath>
+      </base>
+      <mdt-receivers>
+          <address>{{ receiver_ip }}</address>
+          <port>{{ receiver_port }}</port>
+          <protocol>grpc-tcp</protocol>
+      </mdt-receivers>
+    </mdt-subscription>
+  </mdt-config-data>
+</config>

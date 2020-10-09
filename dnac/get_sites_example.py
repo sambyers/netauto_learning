@@ -1,4 +1,3 @@
-from dnac import DNAC
 import json
 import requests
 

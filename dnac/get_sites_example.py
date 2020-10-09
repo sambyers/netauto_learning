@@ -2,7 +2,6 @@ import json
 import requests
 
 
-
 # Open our host info from a file
 with open('host.json', 'r') as f:
     dnac = json.loads(f.read())

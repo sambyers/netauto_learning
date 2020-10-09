@@ -2,5 +2,6 @@
   sub_id: 502
   period: 500
   xpath: /memory-ios-xe-oper:memory-statistics/memory-statistic
-  receiver_ip: 192.168.20.40
+  receiver_ip: 198.18.1.12
   receiver_port: 57000
+  source_ip: 198.18.1.10

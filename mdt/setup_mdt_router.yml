@@ -1,0 +1,27 @@
+---
+- name: Enable NETCONF and set lab address
+  hosts: routers
+  gather_facts: False
+  vars:
+    labinterface: GigabitEthernet2
+    labaddress: 198.18.1.10
+
+  tasks:
+  
+    - name: Enable netconf-yang on device
+      ios_config:
+        lines:
+        - netconf-yang
+    
+    # Add aaa authorization for netconf to work
+    - name: Add AAA authorization
+      ios_config:
+        lines:
+        - aaa authorization exec default local
+
+    - name: Update lab interface with an address and enable
+      ios_config:
+        lines:
+        - ip address {{ labaddress }} 255.255.255.0
+        - no shutdown
+        parents: interface {{ labinterface }}

@@ -5,5 +5,5 @@ with open('host.json', 'r') as f:
     host = json.loads(f.read())
 
 dnac = DNAC(**host)
-data = dnac.get_event_subscriptions()
+data = dnac.get_device_list()
 print(json.dumps(data, indent=4))

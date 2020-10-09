@@ -1,9 +1,12 @@
 from dnac import DNAC
 import json
 
+
 with open('host.json', 'r') as f:
     host = json.loads(f.read())
 
 dnac = DNAC(**host)
-data = dnac.get_event_subscriptions()
-print(json.dumps(data, indent=4))
+
+# Get all sites' health
+data = dnac.get_site_health()
+print(json.dumps(data, indent=2))

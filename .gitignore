@@ -1,3 +1,5 @@
 .pyc
 .virlrc
 __pycache__
+.virl
+*inventory.yaml

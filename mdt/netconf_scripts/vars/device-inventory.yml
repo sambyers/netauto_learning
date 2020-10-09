@@ -2,5 +2,6 @@
   sub_id: 504
   period: 6000
   xpath: /device-hardware-xe-oper:device-hardware-data/device-hardware/device-inventory
-  receiver_ip: 192.168.20.40
+  receiver_ip: 198.18.1.12
   receiver_port: 57000
+  source_ip: 198.18.1.10

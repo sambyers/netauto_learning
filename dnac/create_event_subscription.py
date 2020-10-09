@@ -26,5 +26,5 @@ with open('host.json', 'r') as f:
     host = json.loads(f.read())
 
 dnac = DNAC(**host)
-event_subs = dnac.create_event_subscriptions(sub)
-print(json.dumps(event_subs, indent=4))
+data = dnac.create_event_subscriptions(sub)
+print(json.dumps(data, indent=4))

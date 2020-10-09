@@ -1,0 +1,109 @@
+---
+- hosts: tig
+  gather_facts: yes
+  vars:
+    labaddress: 198.18.1.12/24
+
+  tasks:
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Upgrade packages
+      apt: upgrade=dist
+
+    - name: Add InfluxData apt key
+      apt_key:
+        url: https://repos.influxdata.com/influxdb.key
+        state: present
+
+    - name: Add stable InfluxData apt repository
+      apt_repository:
+        repo: "deb https://repos.influxdata.com/{{ ansible_facts['distribution']|lower }} {{ ansible_facts['distribution_release'] }} stable"
+        state: present
+
+    - name: Add Grafana apt key
+      apt_key:
+        url: https://packages.grafana.com/gpg.key
+        state: present
+
+    - name: Add Grafana stable apt repository
+      apt_repository:
+        repo: deb https://packages.grafana.com/oss/deb stable main
+        state: present
+
+    - name: Install InfluxDB
+      apt:
+        update_cache: yes
+        pkg: influxdb
+
+    - name: Influxdb service started and enabled
+      service:
+        name: influxdb
+        enabled: yes
+        state: started
+
+    - name: Install Telegraf
+      apt:
+        update_cache: yes
+        pkg: telegraf
+
+    - name: Telegraf service started and enabled
+      service:
+        name: telegraf
+        enabled: yes
+        state: started
+
+    - name: Install Grafana
+      apt:
+        force_apt_get: yes
+        update_cache: yes
+        pkg: grafana
+
+    - name: Grafana service started and enabled
+      service:
+        name: grafana-server
+        enabled: yes
+        state: started
+
+    # Copies local Telegraf config file to remote TIG host
+    # If there is an existing file, it will back backed up with a time and date 
+    # The handler Restart telegraf is notified to run at the end of the tasks
+    - name: Copy a new telegraf.conf
+      copy:
+        src: conf_files/telegraf.conf
+        dest: /etc/telegraf/telegraf.conf
+        owner: root
+        group: root
+        mode: '0644'
+        backup: yes
+      notify: Restart telegraf
+
+    # Similar to copy but with a template that has vars
+    # If there is an existing file, it will back backed up with a time and date 
+    # The handler Apply netplan is notified to run at the end of the tasks
+    - name: Copy a new network conf
+      template:
+        src: 99_config.yml.j2
+        dest: /etc/netplan/99_config.yaml
+        owner: root
+        group: root
+        mode: '0644'
+        backup: yes
+      notify: Apply netplan
+    
+  handlers:
+
+    # Restarts the Telegraf service
+    - name: Restart telegraf
+      service:
+        name: telegraf
+        state: restarted
+    
+    # Applies netplan and does it asynchronously, meaning it 
+    # doesn't wait for the operation to complete before moving on
+    - name: Apply netplan
+      command: sudo netplan apply
+      async: 45
+      poll: 0

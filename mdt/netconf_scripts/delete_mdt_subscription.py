@@ -1,5 +1,6 @@
 from ncclient import manager
 from jinja2 import Environment, PackageLoader, select_autoescape
+from utils import cliargs
 import sys
 import yaml
 
@@ -17,7 +18,7 @@ env = Environment(
 template = env.get_template('delete_mdt_rpc.xml')
 rpc = template.render(
     sub_id=var_data.get('sub_id'),
-    source_ip=args.host,
+    source_ip=var_data.get('source_ip'),
     period=var_data.get('period'),
     xpath=var_data.get('xpath'),
     receiver_ip=var_data.get('receiver_ip'),

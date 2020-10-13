@@ -1,0 +1,33 @@
+---
+- name: Configure MDT for Interface Statistics
+  hosts: routers
+  connection: netconf
+  gather_facts: no
+
+  vars:
+    ansible_netconf_host_key_checking: no
+    sub_id: 503
+    period: 500
+    xpath: /if:interfaces-state/interface/statistics
+    receiver_ip: 198.18.1.12
+    receiver_port: 57000
+    source_ip: "{{ labip }}"
+
+  tasks:
+
+    - name: Get Source Lab IP Address
+      netconf_get:
+        filter: <interfaces xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-interfaces-oper"><interface><ipv4/><name/></interface></interfaces>
+        display: json
+      register: results
+      
+    - name: Record Lab IP Address
+      loop: "{{ results.output.data.interfaces.interface }}"
+      when: item.name == "GigabitEthernet2"
+      set_fact:
+        labip: "{{ item.ipv4 }}"
+  
+    - name: Configure MDT
+      netconf_config:
+        target: running
+        src: templates/set_mdt_rpc.xml.j2

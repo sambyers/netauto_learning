@@ -1,0 +1,23 @@
+---
+- name: Get NTP Configuration
+  hosts: routers
+  connection: netconf
+  gather_facts: no
+
+  vars:
+    ansible_netconf_host_key_checking: no
+
+  tasks:
+
+    # Using the XPath filter for ntp server, get the NTP server configuration
+    - name: Get configuration and state data in JSON format
+      ansible.netcommon.netconf_get:
+        source: running
+        display: json
+        filter: /native/ntp/server
+      register: results
+    
+    # Print out results and access the json we set in the first task
+    - name: Print Config
+      debug:
+        var: results['output']

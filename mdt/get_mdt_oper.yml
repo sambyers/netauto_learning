@@ -1,0 +1,25 @@
+---
+- name: Get MDT Configuration
+  hosts: routers
+  connection: netconf
+  gather_facts: no
+
+  vars:
+    ansible_netconf_host_key_checking: no
+
+  tasks:
+
+    # Using the XPath filter for MDT, get the MDT configuration
+    - name: Get configuration and state data in JSON format
+      ansible.netcommon.netconf_get:
+        source: running
+        display: json
+        # This XPath doesn't work in Ansible for some reason
+        # Works ok with ncclient directly
+        filter: /mdt-oper-data
+      register: results
+    
+    # Print out results and access the json we set in the first task
+    - name: Print Config
+      debug:
+        var: results['output']

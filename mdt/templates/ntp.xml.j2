@@ -1,0 +1,11 @@
+<config>
+  <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+    <ntp>
+      <server xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ntp">
+        <server-list>
+          <ip-address>{{ ntpserver }}</ip-address>
+        </server-list>
+      </server>
+    </ntp>
+  </native>
+</config>

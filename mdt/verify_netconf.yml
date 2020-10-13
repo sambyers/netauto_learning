@@ -1,0 +1,22 @@
+---
+- name: Get addresses and verify configuration
+  hosts: routers
+  gather_facts: yes
+
+  vars:
+      ansible_connection: network_cli
+      ansible_become: yes
+      ansible_become_method: enable
+      ansible_become_password: cisco
+      ansible_host_key_checking: False
+
+  tasks:
+
+    - name: "Print IPv4 addresses"
+      debug: var=ansible_facts
+    
+    - name: "Verify NETCONF configuration"
+      ios_command:
+        commands: show run | i netconf
+        wait_for:
+          - result[0] contains netconf-yang

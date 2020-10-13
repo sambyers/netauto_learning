@@ -1,0 +1,15 @@
+---
+- name: Configure NTP Server
+  hosts: routers
+  connection: netconf
+  gather_facts: no
+
+  vars:
+    ansible_netconf_host_key_checking: no
+
+  tasks:
+  
+    - name: "Add NTP server"
+      netconf_config:
+        target: running
+        src: templates/ntp.xml.j2

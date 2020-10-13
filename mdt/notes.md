@@ -14,7 +14,3 @@ https://blogs.cisco.com/datacenter/hot-off-the-press-introducing-openconfig-tele
 
 ANX for YANG models
 https://github.com/cisco-ie/anx
-
-XPath
-/if:interfaces-state/if:interface/if:statistics
-/process-cpu-ios-xe-oper:cpu-usage/cpu-utilization/five-seconds

@@ -67,6 +67,28 @@
         enabled: yes
         state: started
 
+    - name: Install dhcpd
+      apt:
+        force_apt_get: yes
+        update_cache: yes
+        pkg: isc-dhcp-server
+
+    - name: DHCPD service started and enabled
+      service:  
+        name: isc-dhcp-server
+        enabled: yes
+        state: started
+
+    - name: Copy a new dhcpd.conf
+      copy:
+        src: conf_files/dhcpd.conf
+        dest: /etc/dhcp/dhcpd.conf
+        owner: root
+        group: root
+        mode: '0644'
+        backup: yes
+      notify: Restart isc-dhcp-server
+
     # Copies local Telegraf config file to remote TIG host
     # If there is an existing file, it will back backed up with a time and date 
     # The handler Restart telegraf is notified to run at the end of the tasks
@@ -99,6 +121,12 @@
     - name: Restart telegraf
       service:
         name: telegraf
+        state: restarted
+
+    # Restarts the dhcpd service
+    - name: Restart isc-dhcp-server
+      service:
+        name: isc-dhcp-server
         state: restarted
     
     # Applies netplan and does it asynchronously, meaning it 

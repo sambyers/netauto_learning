@@ -3,3 +3,4 @@
 __pycache__
 .virl
 *inventory.yaml
+.DS_Store

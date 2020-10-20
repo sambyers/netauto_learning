@@ -1,0 +1,5 @@
+---
+vmanage: 10.10.20.90
+port: 8443
+username: admin
+password: C1sco12345

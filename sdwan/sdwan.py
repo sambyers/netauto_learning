@@ -68,6 +68,16 @@ class Sdwan():
         r.raise_for_status()
         return r
 
+    def delete(self, url: str, headers: dict = None, params: dict = None, data: dict = None, json: dict = None) -> requests.Response:
+        self.log.info(f'DELETE {url}')
+        self.log.debug(f'URL: {url}, Headers: {headers}, Params: {params}, Form data: {data}, JSON: {json}')
+        r = self.session.delete(url, headers=headers, params=params, data=data, json=json, verify=self.verify_tls)
+        self.log.info(f'Status Code {r.status_code}')
+        self.log.debug('Response:')
+        self.log.debug(f'{r.text}')
+        r.raise_for_status()
+        return r
+
     def authenticate(self) -> int:
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
         url = f'https://{self.vmanage}:{self.port}/j_security_check'
@@ -106,6 +116,10 @@ class Sdwan():
         url = f'{self.api_url}/template/device'
         r = self.get(url, headers=self.headers, params=params)
         return r.json()
+    
+    def get_device_template_id_by_name(self, name: str) -> str:
+        device_templates = self.get_device_templates()
+        return next(tmpl['templateId'] for tmpl in device_templates['data'] if tmpl['templateName'] == name)
 
     def get_feature_templates(self, params: dict = None) -> dict:
         url = f'{self.api_url}/template/feature'
@@ -129,3 +143,23 @@ class Sdwan():
         url = f'{self.api_url}/template/device/{template_id}'
         r = self.put(url, headers=self.headers, json=json)
         return r.json()
+
+    def create_device_feature_template(self, json: dict) -> dict:
+        url = f'{self.api_url}/template/device/feature'
+        r = self.post(url, headers=self.headers, json=json)
+        return r.json()
+        
+    def delete_device_feature_template(self, template_id: str) -> int:
+        url = f'{self.api_url}/template/device/{template_id}'
+        r = self.delete(url, headers=self.headers)
+        return r.status_code
+
+    def create_feature_template(self, json: dict = None) -> dict:
+        url = f'{self.api_url}/template/feature'
+        r = self.post(url, headers=self.headers, json=json)
+        return r.json()
+
+    def delete_feature_template(self, template_id: str) -> int:
+        url = f'{self.api_url}/template/feature/{template_id}'
+        r = self.delete(url, headers=self.headers)
+        return r.status_code

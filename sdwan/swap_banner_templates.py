@@ -26,14 +26,14 @@ feature_templates = api.get_feature_templates()
 
 device_templates = api.get_device_templates()
 # Generator expression to grab our single device template based on name
-site1_device_template = next(d for d in device_templates['data'] if d['templateName'] == 'site1_device_template')
-site1_device_template_id = site1_device_template['templateId']
+site_device_template = next(d for d in device_templates['data'] if d['templateName'] == 'Site_3_vEdge_Template_NEW')
+site_device_template_id = site_device_template['templateId']
 
 # Get the device template object that contains device template to feature template references
-site1_device_template_obj = api.get_device_template_object(site1_device_template_id)
+site_device_template_obj = api.get_device_template_object(site_device_template_id)
 
 # Swap old feature template for a new one by name
-updated_device_template_obj = swap_feature_templates(site1_device_template_obj, feature_templates, 'remote_site_banner2', 'remote_site_banner1')
+updated_device_template_obj = swap_feature_templates(site_device_template_obj, feature_templates, 'remote_site_banner1', 'remote_site_banner2')
 
 # Update device template with newly swapped feature template
-update_result = api.update_device_template(site1_device_template_id, updated_device_template_obj)
+update_result = api.update_device_template(site_device_template_id, updated_device_template_obj)

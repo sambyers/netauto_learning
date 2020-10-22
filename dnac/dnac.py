@@ -150,23 +150,14 @@ class DNAC():
         return self.request('get', path)
 
     def get_device_list(self, params: dict = None) -> dict:
-        '''
-        https://developer.cisco.com/docs/dna-center/#!cisco-dna-1-3-3-x-api-api-devices-get-device-list
-        '''
         path = f'{self.host}/dna/intent/api/v1/network-device'
         return self.request('get', path, params)
     
     def get_device_summary(self, id):
-        '''
-        https://developer.cisco.com/docs/dna-center/#!cisco-dna-1-3-3-x-api-api-devices-get-device-summary
-        '''
         path = f'{self.host}/dna/intent/api/v1/network-device/{id}/brief'
         return self.request('get', path)
 
     def get_device_by_id(self, id):
-        '''
-        https://developer.cisco.com/docs/dna-center/#!cisco-dna-1-3-3-x-api-api-devices-get-device-by-id
-        '''
         path = f'{self.host}/dna/intent/api/v1/network-device/{id}'
         return self.request('get', path)
 
@@ -182,44 +173,26 @@ class DNAC():
         return resp
 
     def get_site(self, params: dict = None) -> dict:
-        '''
-        https://developer.cisco.com/docs/dna-center/#!cisco-dna-1-3-3-x-api-api-sites-get-site
-        '''
         path = f'{self.host}/dna/intent/api/v1/site'
         return self.request('get', path, params=params)
 
     def get_site_count(self) -> dict:
-        '''
-        https://developer.cisco.com/docs/dna-center/#!cisco-dna-1-3-3-x-api-api-sites-get-site-count
-        '''
         path = f'{self.host}/dna/intent/api/v1/site/count'
         return self.request('get', path)
     
     def get_device_credentials(self, id: str = None) -> dict:
-        '''
-        https://developer.cisco.com/docs/dna-center/#!cisco-dna-1-3-3-x-api-api-network-settings-get-device-credential-details
-        '''
         params = {'siteId': id}
         path = f'{self.host}/dna/intent/api/v1/device-credential'
         return self.request('get', path, params=params)
     
     def get_configuration_templates(self, params: dict = None) -> dict:
-        '''
-        https://developer.cisco.com/docs/dna-center/#!cisco-dna-1-3-3-x-api-api-configuration-templates-gets-the-templates-available
-        '''
         path = f'{self.host}/dna/intent/api/v1/template-programmer/template'
         return self.request('get', path, params=params)
     
     def get_configuration_template_detail(self, id: str) -> dict:
-        '''
-        https://developer.cisco.com/docs/dna-center/#!cisco-dna-1-3-3-x-api-api-configuration-templates-get-template-details
-        '''
         path = f'{self.host}/dna/intent/api/v1/template-programmer/template/{id}'
         return self.request('get', path)
     
     def get_discoveries_by_range(self, start: int, records: int) -> dict:
-        '''
-        https://developer.cisco.com/docs/dna-center/#!network-discovery-get-discoveries-by-range
-        '''
         path = f'{self.host}/dna/intent/api/v1/discovery/{start}/{records}'
         return self.request('get', path)

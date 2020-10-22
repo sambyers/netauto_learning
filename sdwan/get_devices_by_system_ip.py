@@ -7,6 +7,6 @@ with open('config.yml') as fh:
     config = safe_load(fh.read())
 
 s = Sdwan(**config, verify_tls=False)
-params = {'system-ip': '10.10.1.13'}
+params = {'system-ip': '10.10.1.17'}
 response = s.get_devices(params=params)
 print(json.dumps(response['data'], indent=2))

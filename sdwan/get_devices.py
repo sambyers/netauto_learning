@@ -17,7 +17,7 @@ with open('config.yml') as fh:
 
 s = Sdwan(**config, verify_tls=False)
 response = s.get_devices()
-# print(json.dumps(response['data'], indent=2))
+print(json.dumps(response['data'], indent=2))
 
 device_table, table_headers = create_device_table(response)
 

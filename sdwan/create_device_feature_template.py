@@ -8,7 +8,7 @@ with open('config.yml') as fh:
 
 api = Sdwan(**config, verify_tls=False)
 
-site_template = {
+site3_template = {
   "templateName": "Site_3_vEdge_Template_NEW",
   "templateDescription": "Site_3_vEdge_Template_NEW",
   "deviceType": "vedge-cloud",
@@ -80,5 +80,5 @@ site_template = {
   ]
 }
 
-response = api.create_device_feature_template(site_template)
+response = api.create_device_feature_template(site3_template)
 print(json.dumps(response))

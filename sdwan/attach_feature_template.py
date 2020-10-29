@@ -62,12 +62,16 @@ def fill_device_vars(
     }
     return filled
 
-with open('site3_vars.yml') as fh:
-    vars = safe_load(fh.read())
-d = fill_device_vars('123', **vars)
-print(json.dumps(d, indent=2))
-
 with open('config.yml') as fh:
     config = safe_load(fh.read())
 
 api = Sdwan(**config, verify_tls=False)
+template_id = api.get_device_template_id_by_name('Site_3_vEdge_Template_CLONED')  
+
+with open('site3_vars.yml') as fh:
+    vars = safe_load(fh.read())
+device_template_list = fill_device_vars(template_id, **vars)
+print(json.dumps(device_template_list, indent=2))
+api.attach_feature_device_template(json=device_template_list)
+device_template = api.get_template_attached_devices(template_id)
+print(json.dumps(device_template, indent=2))

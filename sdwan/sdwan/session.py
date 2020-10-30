@@ -23,7 +23,11 @@ class Session():
         self.session = requests.session()
         self.auth_result = self.authenticate() # Login to vManage
         self.token = self.get_token() # Grab token
-        self.headers = {'X-XSRF-TOKEN': self.token} # Store token in a dict for use as headers
+        self.headers = { # Store token in a dict for use as headers
+            'X-XSRF-TOKEN': self.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            }
 
     def authenticate(self) -> int:
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}

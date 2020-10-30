@@ -1,5 +1,6 @@
 """
 Minimal SD-WAN SDK for learning purposes only.
+Based on these docs https://developer.cisco.com/docs/sdwan/
 """
 
 import logging
@@ -13,7 +14,7 @@ from .troubleshooting import Troubleshooting
 
 
 class Sdwan():
-    def __init__(self, vmanage, port, username, password, verify_tls):
+    def __init__(self, vmanage, port, username, password, verify_tls=True):
 
         # Setup logging
         log = logging.getLogger(__name__)

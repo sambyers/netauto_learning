@@ -18,3 +18,8 @@ class DeviceState():
         url = f'{self.session.api_url}/alarms'
         r = self.session.get(url, params=params)
         return r.json()
+
+    def get_device_status(self) -> dict:
+        url = f'{self.session.api_url}/device/status'
+        r = self.session.get(url)
+        return r.json()

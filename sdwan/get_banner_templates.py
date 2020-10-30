@@ -9,6 +9,6 @@ with open('config.yml') as fh:
 api = Sdwan(**config, verify_tls=False)
 
 # Get all feature templates of type banner
-response = api.get_feature_templates()
+response = api.deviceconfiguration.get_feature_templates()
 banner_template = [d for d in response['data'] if d['templateType'] == 'banner']
 print(json.dumps(banner_template, indent=2))

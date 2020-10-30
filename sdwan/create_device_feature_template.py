@@ -80,5 +80,5 @@ site3_template = {
   ]
 }
 
-response = api.create_device_feature_template(site3_template)
+response = api.deviceconfiguration.create_device_feature_template(site3_template)
 print(json.dumps(response))

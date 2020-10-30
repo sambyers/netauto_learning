@@ -8,5 +8,5 @@ with open('config.yml') as fh:
 
 api = Sdwan(**config, verify_tls=False)
 
-response = api.clone_device_feature_template('Site_3_vEdge_Template', '_CLONED')
+response = api.deviceconfiguration.clone_device_feature_template('Site_3_vEdge_Template', '_CLONED')
 print(json.dumps(response))

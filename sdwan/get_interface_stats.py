@@ -6,6 +6,6 @@ import json
 with open('config.yml') as fh:
     config = safe_load(fh.read())
 
-s = Sdwan(**config, verify_tls=False)
-response = s.get_interface_stats()
+api = Sdwan(**config, verify_tls=False)
+response = api.devicestate.get_interface_stats()
 print(json.dumps(response['data'], indent=2))

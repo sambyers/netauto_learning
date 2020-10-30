@@ -37,5 +37,5 @@ for i in range(1, 3):
     name = f'remote_site_banner{i}'
     banner_template['templateName'] = name
     banner_template['templateDescription'] = name
-    response = api.create_feature_template(json=banner_template)
+    response = api.deviceconfiguration.create_feature_template(json=banner_template)
     print(json.dumps(response, indent=2))

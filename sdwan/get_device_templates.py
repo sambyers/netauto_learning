@@ -7,5 +7,5 @@ with open('config.yml') as fh:
     config = safe_load(fh.read())
 
 s = Sdwan(**config, verify_tls=False)
-response = s.get_device_templates()
+response = s.deviceconfiguration.get_device_templates()
 print(json.dumps(response['data'], indent=2))

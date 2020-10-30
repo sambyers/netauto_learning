@@ -15,8 +15,8 @@ def create_device_table(response):
 with open('config.yml') as fh:
     config = safe_load(fh.read())
 
-s = Sdwan(**config, verify_tls=False)
-response = s.get_devices()
+api = Sdwan(**config, verify_tls=False)
+response = api.devicestate.get_devices()
 print(json.dumps(response['data'], indent=2))
 
 device_table, table_headers = create_device_table(response)

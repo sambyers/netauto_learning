@@ -171,11 +171,6 @@ class Sdwan():
         url = f'{self.api_url}/template/feature/{template_id}'
         r = self.delete(url, headers=self.headers)
         return r.status_code
-    
-    def get_template_attached_devices(self, template_id: str) -> dict:
-        url = f'{self.api_url}/template/device/config/attached/{template_id}'
-        r = self.get(url, headers=self.headers)
-        return r.json()
 
     def attach_feature_device_template(self, json: dict = None) -> int:
         url = f'{self.api_url}/template/device/config/attachfeature'

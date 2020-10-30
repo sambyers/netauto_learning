@@ -8,7 +8,7 @@ with open('config.yml') as fh:
 
 api = Sdwan(**config, verify_tls=False)
 
-device_templates = api.get_device_templates()
+device_templates = api.deviceconfiguration.get_device_templates()
 device_template = next(d for d in device_templates['data'] if d['templateName'] == 'Site_3_vEdge_Template_NEW')
-device_template_object = api.get_device_template_object(device_template['templateId'])
+device_template_object = api.deviceconfiguration.get_device_template_object(device_template['templateId'])
 print(json.dumps(device_template_object, indent=2))

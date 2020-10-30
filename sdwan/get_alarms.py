@@ -3,9 +3,9 @@ from yaml import safe_load
 import json
 
 
-with open('config.yml') as fh:
+with open('alwayson_config.yml') as fh:
     config = safe_load(fh.read())
 
-s = Sdwan(**config, verify_tls=False)
-response = s.get_alarms()
+api = Sdwan(**config, verify_tls=False)
+response = api.devicestate.get_alarms()
 print(json.dumps(response['data'], indent=2))

@@ -8,7 +8,7 @@ with open('config.yml') as fh:
     config = safe_load(fh.read())
 
 api = Sdwan(**config, verify_tls=False)
-response = api.get_feature_templates()
+response = api.deviceconfiguration.get_feature_templates()
 device_template = next(d for d in response['data'] if d['templateName'] == 'remote_site_banner1')
 template_id = device_template['templateId']
 cloned_name = f"{device_template['templateName']}_CLONED"
@@ -18,5 +18,5 @@ params = {
     'name': cloned_name,
     'desc': cloned_desc
 }
-cloned_template_id = api.clone_feature_template(params=params)
+cloned_template_id = api.deviceconfiguration.clone_feature_template(params=params)
 print(json.dumps(cloned_template_id, indent=2))

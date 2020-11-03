@@ -43,6 +43,12 @@ class DeviceConfiguration():
             template_obj = self.get_device_template_object(template['templateId'])
             device_template_ids.append(template_obj)
         return device_template_ids
+    
+    def get_attached_config(self, deviceid) -> dict:
+        params = {'deviceId': deviceid}
+        url = f'{self.session.api_url}/template/device/config/attachedconfig'
+        r = self.session.get(url, params=params)
+        return r.json()
 
     def update_device_template(self, template_id: str, json: dict) -> dict:
         url = f'{self.session.api_url}/template/device/{template_id}'
@@ -79,10 +85,12 @@ class DeviceConfiguration():
         r = self.session.post(url, json=json)
         return r.status_code
 
-    def clone_feature_template(self, params: dict = None) -> dict:
-        url = f'{self.session.api_url}/template/feature/clone'
-        r = self.session.post(url, params=params)
-        return r.json()
+    def clone_feature_template(self, template_name, suffix) -> dict:
+        feature_template = self.get_feature_templates_by_name(template_name)
+        feature_template['templateName'] += suffix
+        feature_template['templateDescription'] += suffix
+        r = self.create_feature_template(feature_template)
+        return r
 
     def clone_device_feature_template(self, template_name, suffix):
         device_templates = self.get_device_feature_templates()

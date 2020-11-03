@@ -1,9 +1,11 @@
-from sdwan import Sdwan
-from yaml import safe_load
 import json
+import sys
+from yaml import safe_load
+from sdwan import Sdwan
 
 
-with open('config.yml') as fh:
+config_file = sys.argv[1]
+with open(config_file) as fh:
     config = safe_load(fh.read())
 
 s = Sdwan(**config, verify_tls=False)

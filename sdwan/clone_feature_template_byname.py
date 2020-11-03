@@ -5,9 +5,11 @@ from sdwan import Sdwan
 
 
 config_file = sys.argv[1]
+template_name = sys.argv[2]
+
 with open(config_file) as fh:
     config = safe_load(fh.read())
 
 api = Sdwan(**config, verify_tls=False)
-response = api.devicestate.get_interface_stats()
-print(json.dumps(response['data'], indent=2))
+response = api.deviceconfiguration.clone_feature_template(template_name, '_CLONED')
+print(json.dumps(response, indent=2))

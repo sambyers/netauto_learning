@@ -1,8 +1,13 @@
 import json
+import sys
 from yaml import safe_load
-from tabulate import tabulate
 from sdwan import Sdwan
+from tabulate import tabulate
 
+
+config_file = sys.argv[1]
+with open(config_file) as fh:
+    config = safe_load(fh.read())
 
 def create_device_table(response):
     headers = ['Hostname', 'Device Type', 'Device ID', 'System IP', 'Site ID', 'Version', 'Device Model']
@@ -12,12 +17,9 @@ def create_device_table(response):
         table.append(row)
     return table, headers
 
-with open('config.yml') as fh:
-    config = safe_load(fh.read())
-
 api = Sdwan(**config, verify_tls=False)
 response = api.devicestate.get_devices()
-print(json.dumps(response['data'], indent=2))
+# print(json.dumps(response['data'], indent=2))
 
 device_table, table_headers = create_device_table(response)
 

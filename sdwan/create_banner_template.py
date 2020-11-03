@@ -1,41 +1,23 @@
-from sdwan import Sdwan
-from yaml import safe_load
 import json
+import sys
+from yaml import safe_load
+from sdwan import Sdwan
 
 
-with open('config.yml') as fh:
+config_file = sys.argv[1]
+template_file = sys.argv[2]
+
+with open(config_file) as fh:
     config = safe_load(fh.read())
+
+with open (template_file) as fh:
+  template = json.loads(fh.read())
 
 api = Sdwan(**config, verify_tls=False)
 
-banner_template = {
-  "templateName": "",
-  "templateDescription": "",
-  "templateType": "banner",
-  "deviceType": [
-    "vedge-CSR-1000v"
-  ],
-  "factoryDefault": False,
-  "templateMinVersion": "15.0.0",
-  "templateDefinition": {
-    "login": {
-        "vipObjectType": "object",
-        "vipType":"variableName",
-        "vipValue":"",
-        "vipVariableName": "banner_login"
-        },
-    "motd": {
-        "vipObjectType": "object",
-        "vipType": "variableName",
-        "vipValue": "",
-        "vipVariableName": "banner_motd"
-        }
-    }
-}
-
 for i in range(1, 3):
     name = f'remote_site_banner{i}'
-    banner_template['templateName'] = name
-    banner_template['templateDescription'] = name
-    response = api.deviceconfiguration.create_feature_template(json=banner_template)
+    template['templateName'] = name
+    template['templateDescription'] = name
+    response = api.deviceconfiguration.create_feature_template(json=template)
     print(json.dumps(response, indent=2))

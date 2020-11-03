@@ -1,11 +1,13 @@
-from sdwan import Sdwan
-from yaml import safe_load
 import json
+import sys
+from yaml import safe_load
+from sdwan import Sdwan
 
 
 def fill_device_vars(
     template_id, 
-    device_id, 
+    device_id,
+    banner,
     device_ip, 
     host_name,
     vpn_1_ifname,
@@ -32,6 +34,8 @@ def fill_device_vars(
         "device": [
             {
             "csv-status": "complete",
+            "//banner/login": banner,
+            "//banner/motd": banner,
             "csv-deviceId": device_id,
             "csv-deviceIP": device_ip,
             "csv-host-name": host_name,
@@ -62,16 +66,20 @@ def fill_device_vars(
     }
     return filled
 
-with open('config.yml') as fh:
+config_file = sys.argv[1]
+template_id = sys.argv[2]
+tempate_vars_file = sys.argv[3]
+
+with open(config_file) as fh:
     config = safe_load(fh.read())
 
-api = Sdwan(**config, verify_tls=False)
-template_id = api.get_device_template_id_by_name('Site_3_vEdge_Template_CLONED')  
-
-with open('site3_vars.yml') as fh:
+with open(tempate_vars_file) as fh:
     vars = safe_load(fh.read())
+
+api = Sdwan(**config, verify_tls=False)
+
 device_template_list = fill_device_vars(template_id, **vars)
 print(json.dumps(device_template_list, indent=2))
-api.attach_feature_device_template(json=device_template_list)
-device_template = api.get_template_attached_devices(template_id)
-print(json.dumps(device_template, indent=2))
+api.deviceconfiguration.attach_feature_device_template(json=device_template_list)
+device_config = api.deviceconfiguration.get_attached_config(vars['device_id'])
+print(json.dumps(device_config, indent=2))

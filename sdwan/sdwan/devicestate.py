@@ -23,3 +23,18 @@ class DeviceState():
         url = f'{self.session.api_url}/device/status'
         r = self.session.get(url)
         return r.json()
+
+    def get_vedge_inventory_detail(self) -> dict:
+        url = f'{self.session.api_url}/device/vedgeinventory/detail'
+        r = self.session.get(url)
+        return r.json()
+
+    def get_vedge_inventory_summary(self) -> dict:
+        url = f'{self.session.api_url}/device/vedgeinventory/summary'
+        r = self.session.get(url)
+        return r.json()
+
+    def get_vmanage_systemip(self) -> dict:
+        url = f'{self.session.api_url}/device/vmanage'
+        r = self.session.get(url)
+        return r.json()

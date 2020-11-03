@@ -1,5 +1,7 @@
-from sdwan import Sdwan
+import json
+import sys
 from yaml import safe_load
+from sdwan import Sdwan
 
 
 # Swap feature template of a device template given the old and new feature template names
@@ -16,24 +18,27 @@ def swap_feature_templates(device_template_obj: dict, feature_templates: dict, o
             device_template_obj['generalTemplates'].append(new_template)
     return device_template_obj
 
-with open('config.yml') as fh:
+config_file = sys.argv[1]
+device_template_name = sys.argv[2]
+feature_template_old = sys.argv[3]
+feature_template_new = sys.argv[4]
+
+with open(config_file) as fh:
     config = safe_load(fh.read())
 
 api = Sdwan(**config, verify_tls=False)
 
 # Get all feature templates
-feature_templates = api.get_feature_templates()
+feature_templates = api.deviceconfiguration.get_feature_templates()
 
-device_templates = api.get_device_templates()
-# Generator expression to grab our single device template based on name
-site_device_template = next(d for d in device_templates['data'] if d['templateName'] == 'Site_3_vEdge_Template_NEW')
-site_device_template_id = site_device_template['templateId']
+# Get device template ID given a template name
+site_device_template_id = api.deviceconfiguration.get_device_template_id_by_name(device_template_name)
 
 # Get the device template object that contains device template to feature template references
-site_device_template_obj = api.get_device_template_object(site_device_template_id)
+site_device_template_obj = api.deviceconfiguration.get_device_template_object(site_device_template_id)
 
 # Swap old feature template for a new one by name
 updated_device_template_obj = swap_feature_templates(site_device_template_obj, feature_templates, 'remote_site_banner1', 'remote_site_banner2')
 
 # Update device template with newly swapped feature template
-update_result = api.update_device_template(site_device_template_id, updated_device_template_obj)
+update_result = api.deviceconfiguration.update_device_template(site_device_template_id, updated_device_template_obj)

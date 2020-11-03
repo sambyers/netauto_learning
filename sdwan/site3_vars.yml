@@ -1,5 +1,6 @@
 ---
 device_id: 0140a336-5fd5-9829-10d2-f6ba0b177efd
+banner: Test banner
 device_ip: 10.10.1.17
 host_name: site3-vedge01
 vpn_1_ifname: ge0/1

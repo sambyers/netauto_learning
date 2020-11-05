@@ -1,3 +1,4 @@
+from .utils import dict_to_obj
 
 
 class Admin():
@@ -7,7 +8,7 @@ class Admin():
     def get_users(self):
         url = f'{self.session.api_url}/admin/user'
         r = self.session.get(url)
-        return r.json()
+        return dict_to_obj(r.json())
 
     def create_user(self, json: dict):
         url = f'{self.session.api_url}/admin/user'
@@ -22,7 +23,7 @@ class Admin():
     def get_usergroups(self):
         url = f'{self.session.api_url}/admin/usergroup'
         r = self.session.get(url)
-        return r.json()
+        return dict_to_obj(r.json())
 
     def create_usergroup(self, json: dict):
         url = f'{self.session.api_url}/admin/usergroup'

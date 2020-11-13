@@ -14,5 +14,5 @@ with open (template_file) as fh:
   template = json.loads(fh.read())
 
 api = Sdwan(**config, verify_tls=False)
-response = api.deviceconfiguration.create_device_feature_template(template)
+response = api.deviceconfiguration.add_device_feature_template(template)
 print(json.dumps(response))

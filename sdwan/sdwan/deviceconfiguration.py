@@ -55,7 +55,7 @@ class DeviceConfiguration():
         r = self.session.put(url, json=json)
         return r.json()
 
-    def create_device_feature_template(self, json: dict) -> dict:
+    def add_device_feature_template(self, json: dict) -> dict:
         url = f'{self.session.api_url}/template/device/feature'
         r = self.session.post(url, json=json)
         return r.json()
@@ -65,7 +65,7 @@ class DeviceConfiguration():
         r = self.session.delete(url)
         return r.status_code
 
-    def create_feature_template(self, json: dict = None) -> dict:
+    def add_feature_template(self, json: dict = None) -> dict:
         url = f'{self.session.api_url}/template/feature'
         r = self.session.post(url, json=json)
         return r.json()
@@ -89,7 +89,7 @@ class DeviceConfiguration():
         feature_template = self.get_feature_templates_by_name(template_name)
         feature_template['templateName'] += suffix
         feature_template['templateDescription'] += suffix
-        r = self.create_feature_template(feature_template)
+        r = self.add_feature_template(feature_template)
         return r
 
     def clone_device_feature_template(self, template_name, suffix):
@@ -97,7 +97,7 @@ class DeviceConfiguration():
         device_template = next(d for d in device_templates if d['templateName'] == template_name)
         device_template['templateName'] += suffix
         device_template['templateDescription'] += suffix
-        r = self.create_device_feature_template(device_template)
+        r = self.add_device_feature_template(device_template)
         return r
 
     def add_feature_template_to_device_feature_template_by_name(self, feature_template_name: str, device_template_name: str) -> int:

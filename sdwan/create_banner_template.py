@@ -19,5 +19,5 @@ for i in range(1, 3):
     name = f'remote_site_banner{i}'
     template['templateName'] = name
     template['templateDescription'] = name
-    response = api.deviceconfiguration.create_feature_template(json=template)
+    response = api.deviceconfiguration.add_feature_template(json=template)
     print(json.dumps(response, indent=2))

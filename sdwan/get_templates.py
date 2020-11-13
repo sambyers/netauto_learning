@@ -6,9 +6,9 @@ from sdwan import Sdwan
 
 config_file = sys.argv[1]
 
-try:
+if len(sys.argv) > 2:
     templateid = sys.argv[2]
-except(IndexError):
+else:
     templateid = None
 
 with open(config_file) as fh:

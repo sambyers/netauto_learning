@@ -10,7 +10,7 @@ class Admin():
         r = self.session.get(url)
         return dict_to_obj(r.json())
 
-    def create_user(self, json: dict):
+    def add_user(self, json: dict):
         url = f'{self.session.api_url}/admin/user'
         r = self.session.post(url)
         return r.json()
@@ -25,7 +25,7 @@ class Admin():
         r = self.session.get(url)
         return dict_to_obj(r.json())
 
-    def create_usergroup(self, json: dict):
+    def add_usergroup(self, json: dict):
         url = f'{self.session.api_url}/admin/usergroup'
         r = self.session.post(url, json=json)
         return r.json()
